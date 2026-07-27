@@ -153,28 +153,37 @@ export const DailyJournalView: React.FC<DailyJournalViewProps> = ({
   return (
     <div className="pb-24 max-w-2xl mx-auto px-3 sm:px-4 pt-3 space-y-5 animate-fadeIn">
       {/* Top Day Navigation Bar */}
-      <div className="bg-white/10 backdrop-blur-2xl border border-white/15 rounded-2xl p-3 sm:p-3.5 shadow-xl flex items-center justify-between">
+      <div className="bg-white/10 backdrop-blur-2xl border border-white/15 rounded-2xl p-3 sm:p-3.5 shadow-xl flex items-center justify-between gap-2">
         <button
           onClick={onPrevDay}
           disabled={entry.dayNumber <= 1}
-          className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-transparent transition-all"
+          className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-transparent transition-all shrink-0"
           title="Dia Anterior"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
 
-        <div className="text-center">
+        <div className="text-center flex-1">
           <div className="flex items-center justify-center gap-2">
-            <span className="font-serif text-xl sm:text-2xl font-bold text-white tracking-wide">
-              {entry.dateFormatted}
-            </span>
+            <select
+              value={entry.dayNumber}
+              onChange={(e) => onSelectDay(Number(e.target.value))}
+              className="bg-white/10 text-white font-serif text-lg sm:text-xl font-bold tracking-wide border border-white/20 rounded-xl px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer hover:bg-white/15 transition-all text-center"
+            >
+              {Array.from({ length: totalDays }, (_, i) => i + 1).map((d) => (
+                <option key={d} value={d} className="bg-slate-900 text-white font-sans text-sm">
+                  Dia {d < 10 ? '0' + d : d} - {entry.dateFormatted.replace(/^\d+\s*de\s*/i, `${d < 10 ? '0' + d : d} de `)}
+                </option>
+              ))}
+            </select>
+
             {entry.completed && (
-              <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 backdrop-blur-md">
+              <span className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 backdrop-blur-md shrink-0">
                 <Check className="w-3 h-3 mr-1" /> Feito
               </span>
             )}
           </div>
-          <p className="text-xs text-white/60 font-medium mt-0.5">
+          <p className="text-xs text-white/70 font-medium mt-1">
             {entry.diaDaSemana} • {entry.semanaLiturgica}
           </p>
         </div>
@@ -182,21 +191,21 @@ export const DailyJournalView: React.FC<DailyJournalViewProps> = ({
         <button
           onClick={onNextDay}
           disabled={entry.dayNumber >= totalDays}
-          className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-transparent transition-all"
+          className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:hover:bg-transparent transition-all shrink-0"
           title="Próximo Dia"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Liturgia Diária Card */}
-      <div className="bg-gradient-to-br from-purple-900/40 via-purple-800/30 to-pink-900/30 text-white rounded-3xl p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border border-white/20 backdrop-blur-2xl relative overflow-hidden">
+      {/* Liturgia Diária & Evangelho Card */}
+      <div className="bg-gradient-to-br from-purple-900/40 via-purple-800/30 to-pink-900/30 text-white rounded-3xl p-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] border border-white/20 backdrop-blur-2xl relative overflow-hidden space-y-3.5">
         <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 opacity-10 pointer-events-none">
           <BookOpen className="w-36 h-36 text-purple-200" />
         </div>
 
-        <div className="flex items-center justify-between mb-3 relative z-10">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between relative z-10">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[11px] font-bold uppercase tracking-widest text-amber-300">
               Liturgia Diária
             </span>
@@ -218,20 +227,29 @@ export const DailyJournalView: React.FC<DailyJournalViewProps> = ({
           </button>
         </div>
 
-        <div className="space-y-2 text-sm text-white/90 relative z-10">
-          <p className="font-semibold text-white flex items-center gap-2">
-            <span className="text-amber-300">📖</span> {entry.liturgia.leituras}
+        {/* Evangelho Header (matching page 3 of PDF) */}
+        <div className="bg-amber-400/15 border border-amber-300/30 rounded-2xl p-3.5 relative z-10 space-y-1.5 backdrop-blur-md">
+          <p className="font-serif font-bold text-amber-200 text-sm sm:text-base flex items-center gap-2">
+            <span>📖</span> Evangelho: {entry.liturgia.evangelhoRef}{' '}
+            <span className="text-xs font-normal text-amber-300/80 italic">
+              (Leia em sua Bíblia)
+            </span>
+          </p>
+          {entry.liturgia.evangelhoFrase && (
+            <p className="italic text-xs text-white/90 leading-relaxed font-serif pl-6 border-l-2 border-amber-300/50">
+              “{entry.liturgia.evangelhoFrase}”
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1.5 text-xs text-white/90 relative z-10 pt-1">
+          <p className="font-medium text-white/90 flex items-center gap-2">
+            <span className="text-purple-300">📜</span> <strong className="text-amber-200">Leituras:</strong> {entry.liturgia.leituras}
           </p>
           <p className="text-xs text-white/80 flex items-center gap-2">
-            <span className="text-pink-300">✨</span> Santo do Dia:{' '}
-            <strong className="text-white font-medium">{entry.liturgia.santoDoDia}</strong>
+            <span className="text-pink-300">✨</span> <strong className="text-amber-200">Santo do Dia:</strong>{' '}
+            <span className="text-white font-medium">{entry.liturgia.santoDoDia}</span>
           </p>
-
-          {entry.liturgia.evangelhoFrase && (
-            <div className="mt-3 pt-2.5 border-t border-white/15 italic text-xs text-amber-200 leading-relaxed font-serif">
-              “{entry.liturgia.evangelhoFrase}”
-            </div>
-          )}
         </div>
       </div>
 

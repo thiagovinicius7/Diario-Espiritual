@@ -56,63 +56,72 @@ async function startServer() {
 
       const parts: any[] = [];
 
-      // If textPrompt contains extracted PDF text, use text-based processing to avoid large base64 payload overhead
-      if (fileBase64 && (!textPrompt || textPrompt.length < 100)) {
+      // Always attach PDF inlineData if fileBase64 is provided
+      if (fileBase64) {
         const cleanBase64 = fileBase64.replace(/^data:[^;]+;base64,/, '');
         parts.push({
           inlineData: {
-            mimeType: mimeType,
+            mimeType: mimeType || 'application/pdf',
             data: cleanBase64,
           },
         });
       }
 
       const promptText = `
-Você é um assistente especialista em Diários Espirituais Católicos.
-Analise este documento (PDF/Imagem/Texto) de um libreto mensal de Diário Espiritual.
-Extraia todas as informações organizadas por cada dia do mês.
+Você é um assistente especialista na leitura e estruturação de Diários Espiritual Católicos.
+Analise este documento (PDF/Imagem/Texto) de um libreto mensal do Diário Espiritual.
 
-Se o mês e ano não estiverem explícitos, deduza ou use o nome informado: "${customMonthName || 'Próximo Mês'}".
+Observe que cada dia do mês possui uma estrutura rica composta por:
+1. Cabeçalho do Dia: Ex: "01 de Julho", "Quarta-feira", "13° Semana do tempo comum".
+2. Caixas de Liturgia Diária: Cor litúrgica ("Verde", "Branco", "Vermelho", "Roxo", "Rosa"), Leituras bíblicas (ex: "Am 5,14-15.21-24 | Sl 49(50) | Mt 8,28-34"), Santo do dia (ex: "Santo Aarão").
+3. Evangelho do Dia: Referência (ex: "Mt 8,28-34 (Leia em sua Bíblia)") e Frase destacada (ex: "Agarraram o filho querido, o mataram, e o jogaram fora da vinha.").
+4. "Para meditar:": Texto completo e integral da meditação bíblica do dia.
+5. "Para refletir:": As 3 perguntas numeradas de reflexão pessoal do fiel (ex: ["1 - Pergunta 1...", "2 - Pergunta 2...", "3 - Pergunta 3..."]).
+6. "Um passo como resposta de amor": orientações para Ação Concreta (Renunciar, Iniciar, Melhorar).
+7. "Oremos:": A oração inspirada e guiada de encerramento do dia.
+
+Extraia com extrema fidelidade TODOS os dias presentes no documento (dia 01 até o dia 30 ou 31).
+Se o nome do mês não estiver explícito, utilize: "${customMonthName || 'Julho'}".
 
 Retorne um JSON estritamente no seguinte formato:
 {
-  "id": "slug-do-mes",
+  "id": "diario-espiritual-mes",
   "title": "DIÁRIO ESPIRITUAL",
-  "monthName": "Nome do Mês (ex: Agosto)",
+  "monthName": "${customMonthName || 'Julho'}",
   "year": 2026,
   "coverColor": "#1e4620",
   "dicasAproveitamento": [
-    "Dica 1...",
-    "Dica 2..."
+    "Tenha um local e horário fixos para oração;",
+    "Invoque o Espírito Santo...",
+    "Leia o evangelho do dia em sua Bíblia...",
+    "Use as perguntas para realmente refletir...",
+    "É interessante você anotar suas respostas...",
+    "Tente investir alguns minutos do seu dia...",
+    "Procure o sacramento da confissão..."
   ],
   "entries": [
     {
       "dayNumber": 1,
-      "dateFormatted": "01 de Agosto",
-      "diaDaSemana": "Quinta-feira",
-      "semanaLiturgica": "18° Semana do Tempo Comum",
+      "dateFormatted": "01 de Julho",
+      "diaDaSemana": "Quarta-feira",
+      "semanaLiturgica": "13° Semana do tempo comum",
       "liturgia": {
         "cor": "Verde",
-        "leituras": "Jr 18,1-6 | Sl 145 | Mt 13,47-53",
-        "evangelhoRef": "Mt 13,47-53",
-        "evangelhoFrase": "Frase destacada do Evangelho",
-        "santoDoDia": "Nome do Santo do dia"
+        "leituras": "Am 5,14-15.21-24 | Sl 49(50) | Mt 8,28-34",
+        "evangelhoRef": "Mt 8,28-34",
+        "evangelhoFrase": "Agarraram o filho querido, o mataram, e o jogaram fora da vinha.",
+        "santoDoDia": "Santo Aarão"
       },
-      "paraMeditar": "Texto completo da meditação espiritual do dia...",
+      "paraMeditar": "Texto completo do Para Meditar...",
       "paraRefletir": [
-        "1 - Pergunta de reflexão 1?",
-        "2 - Pergunta de reflexão 2?",
-        "3 - Pergunta de reflexão 3?"
+        "1 - Pergunta de reflexão 1",
+        "2 - Pergunta de reflexão 2",
+        "3 - Pergunta de reflexão 3"
       ],
-      "oremos": "Oração guiada de encerramento do dia..."
+      "oremos": "Texto completo da Oração Oremos..."
     }
   ]
 }
-
-Atenção:
-1. Extraia o máximo de dias encontrados (ex: todos os 30 ou 31 dias).
-2. Se a cor litúrgica não constar, coloque "Verde". As cores possíveis são "Verde", "Vermelho", "Branco", "Roxo", "Rosa".
-3. Mantenha os textos fiéis ao conteúdo católico do documento.
 `;
 
       parts.push({ text: promptText + (textPrompt ? `\n\nConteúdo adicional:\n${textPrompt}` : '') });
