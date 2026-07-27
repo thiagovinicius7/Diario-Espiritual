@@ -31,21 +31,27 @@ export const july2026Journal: MonthlyJournal = {
       },
       paraMeditar: `O Evangelho de hoje traz o primeiro exorcismo realizado por Jesus no Evangelho de Mateus. Ontem, Jesus acalmou a tempestade, acalmou o mar que nos causa medo; hoje, Ele vence a raiz de tudo aquilo que nos provoca medo: o próprio diabo.
 
-Jesus encontra dois homens possuídos pelo demônio, que viviam em meio aos túmulos. Aqui, nessa possessão, percebemos o que o pecado faz com o ser humano. A pessoa vai ficando tão escrava de um pecado, que passa a se apaixonar pelo autor do pecado, que é o diabo. E que fique claro: o diabo existe, sim.
+Jesus encontra dois homens possuídos pelo demônio, que viviam em meio aos túmulos. Aqui, nessa possessão, percebemos o que o pecado faz com o ser humano. A pessoa vai ficando tão escrava de um pecado, que passa a se apaixonar pelo autor do pecado, que é o diabo. E que fique claro: o diabo existe, sim. Nessa cena, Jesus não curou dois homens apenas atormentados psicologicamente, ainda que o demônio possa causar isso. Esses dois estavam possuídos por satanás, que pode vir a possuir alguém dessa forma.
 
 Mas, ainda que nós, batizados, estejamos longe de um estado de possessão demoníaca propriamente dita, podemos, sim, de alguma forma, viver o que esses endemoniados viviam. Veja só o que eles gritaram quando viram Jesus: “O que tens a ver conosco, Filho de Deus?”
 
-Apesar de reconhecerem Jesus como o Filho de Deus, de alguma forma, em algum momento de nossa vida, nós também podemos achar que Jesus está nos atrapalhando. Podemos achar que Jesus nos atrapalha quando sabemos da nossa obrigação de ir à missa todos os domingos, mas a preguiça bate e não vamos.
+Apesar de reconhecerem Jesus como o Filho de Deus, assim como no Evangelho de ontem reconhecemos o senhorio de Jesus, de alguma forma, em algum momento de nossa vida, nós também podemos achar que Jesus está nos atrapalhando, assim como gritaram os dois homens do Evangelho de hoje. Podemos achar que Jesus nos atrapalha quando você e eu sabemos da nossa obrigação de ir à missa todos os domingos, mas a preguiça bate e não vamos. É Jesus quem atrapalha o nosso descanso. A partir desse exemplo, existem tantos outros, não é?
 
-Então, Jesus expulsa os demônios e os manda para os porcos. O povo da cidade ficou sabendo do acontecido e veio até onde Jesus estava. Não para pedir um milagre ou cura, mas para mandar Jesus embora, porque esse milagre estava custando caro demais (a manada de porcos).
+Então, Jesus expulsa os demônios e os manda para os porcos, e, no mesmo momento, os porcos pulam morro abaixo. Depois disso, o povo da cidade ficou sabendo do acontecido e veio até onde Jesus estava. Mas para quê? Para pedir um milagre também? Para pedir uma cura? Não. Vieram para mandar Jesus embora, porque esse milagre estava custando caro demais. Porque, se Jesus fizesse mais um milagre, eles perderiam mais uma manada de porcos. Ficaria muito caro.
 
-Infelizmente, muitas pessoas abandonam a Igreja, a fé e a religião porque custa caro demais: custa o dia de descanso, custa tempo, dedicação, dízimo, ajuda ao pobre. Qual é o testemunho que estamos dando de Jesus através de nossa vida? Os demônios que Ele tem expulsado de nós ou o prejuízo que achamos que Ele nos causa?`,
+Infelizmente, muitas pessoas abandonam a Igreja, a fé e a religião porque custa caro demais. E não digo somente da questão financeira, não. Custa o dia de descanso, custa uma noite em uma ação pastoral, custa um dízimo, custa a ajuda ao pobre, custa tempo, custa dedicação, cansa, perturba, enjoa.
+
+Mas é interessante notar que as pessoas que vieram pedir para que Jesus fosse embora vieram porque ficaram sabendo somente do prejuízo. Isso nos faz pensar em uma coisa: nós mesmos, que temos experiências com Jesus, que as pessoas sabem que praticamos uma religião, será que também não estamos contando somente o prejuízo que Jesus nos causa e, com isso, distanciando as pessoas d’Ele?
+
+Pessoas de Deus que estão sempre com o rosto abatido, com a cara fechada, mas vivem na igreja. Ao verem isso, as pessoas que estão ao nosso redor não se sentem atraídas por essa fé que cansa, que desanima, que suga.
+
+Irmãos e irmãs, qual é o testemunho que estamos dando de Jesus através de nossa vida? Os demônios que Ele tem expulsado de nós ou o prejuízo que Ele tem nos causado?`,
       paraRefletir: [
         '1 - Quando os compromissos da fé começam a exigir mais de mim, tenho acolhido isso com amor ou passo a pensar que Jesus está ocupando espaço demais na minha vida?',
         '2 - Quais renúncias e mudanças concretas tenho aceitado viver para permanecer fiel a Jesus e ao Evangelho?',
         '3 - Pelas minhas atitudes e escolhas do dia a dia, que imagem de Jesus as pessoas conseguem enxergar em mim?'
       ],
-      oremos: 'Deus Pai, obrigado por todas as vezes que expulsou os demônios da minha vida; por todas as vezes que me socorreu quando gritei. Reconheço que em muitas ocasiões por preguiça, medo ou indecisão eu não cumpri com os meus deveres de cristão, mesmo sabendo o prejuízo que isso me causaria. Mas hoje eu quero reafirmar meu compromisso contigo e pedir mais uma vez: tire de mim tudo aquilo que me impede de te seguir. Dai-me a graça de gastar a minha vida aos seus pés. Amém.'
+      oremos: 'Deus Pai, obrigado por todas as vezes que expulsou os demônios da minha vida; por todas as vezes que me socorreu quando gritei. Reconheço que em muitas ocasiões por preguiça, medo ou indecisão eu não cumpri com os meus deveres de cristão, mesmo sabendo o prejuízo que isso me causaria. Mas hoje eu quero reafirmar meu compromisso contigo e pedir mais uma vez: tire de mim tudo aquilo que me impede de te seguir, tudo aquilo que vejo como prejuízo. Dai-me a graça de gastar a minha vida aos seus pés. Amém.'
     },
     {
       dayNumber: 2,

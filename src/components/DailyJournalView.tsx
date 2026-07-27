@@ -229,11 +229,8 @@ export const DailyJournalView: React.FC<DailyJournalViewProps> = ({
 
         {/* Evangelho Header (matching page 3 of PDF) */}
         <div className="bg-amber-400/15 border border-amber-300/30 rounded-2xl p-3.5 relative z-10 space-y-1.5 backdrop-blur-md">
-          <p className="font-serif font-bold text-amber-200 text-sm sm:text-base flex items-center gap-2">
-            <span>📖</span> Evangelho: {entry.liturgia.evangelhoRef}{' '}
-            <span className="text-xs font-normal text-amber-300/80 italic">
-              (Leia em sua Bíblia)
-            </span>
+          <p className="font-serif font-bold text-amber-200 text-sm sm:text-base flex flex-wrap items-center gap-1">
+            <span>📖</span> Evangelho: {entry.liturgia.evangelhoRef}(Leia em sua Bíblia)
           </p>
           {entry.liturgia.evangelhoFrase && (
             <p className="italic text-xs text-white/90 leading-relaxed font-serif pl-6 border-l-2 border-amber-300/50">
