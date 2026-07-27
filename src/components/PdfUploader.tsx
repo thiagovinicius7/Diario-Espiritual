@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Upload, FileText, Sparkles, Loader2, CheckCircle2, AlertCircle, ArrowRight, Calendar, Key, HelpCircle } from 'lucide-react';
 import { MonthlyJournal } from '../types';
-import { parseJournalTextLocally, getPreloadedJulyJournal } from '../utils/pdfTextParser';
+import { parseJournalTextLocally, getPreloadedJulyJournal, extractTextFromPdfFile } from '../utils/pdfTextParser';
 
 interface PdfUploaderProps {
   onJournalImported: (newJournal: MonthlyJournal) => void;
@@ -71,9 +71,13 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({
     try {
       let fileBase64 = '';
       let mimeType = 'application/pdf';
+      let extractedPdfText = '';
 
       if (file) {
         mimeType = file.type || 'application/pdf';
+        setStatusMessage('Extraindo texto das páginas do PDF...');
+        extractedPdfText = await extractTextFromPdfFile(file);
+
         fileBase64 = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
@@ -81,6 +85,8 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({
           reader.readAsDataURL(file);
         });
       }
+
+      const combinedText = [extractedPdfText, pastedText].filter(Boolean).join('\n\n');
 
       // Try server endpoint first
       let parsedJournal: MonthlyJournal | null = null;
@@ -93,7 +99,7 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({
           body: JSON.stringify({
             fileBase64,
             mimeType,
-            textPrompt: pastedText,
+            textPrompt: combinedText,
             customMonthName: customMonthName || 'Novo Mês',
             userApiKey: userApiKey.trim() || undefined,
           }),
@@ -101,7 +107,7 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({
 
         if (response.ok) {
           const result = await response.json();
-          if (result.success && result.data) {
+          if (result.success && result.data && Array.isArray(result.data.entries) && result.data.entries.length > 0) {
             parsedJournal = result.data;
           }
         }
@@ -109,19 +115,18 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({
         console.warn('Backend server unreachable (e.g. static GitHub Pages hosting). Using client-side fallback:', fetchErr);
       }
 
-      // FALLBACK: If server was unreachable (e.g. GitHub Pages) or returned error, use client-side text parser!
-      if (!parsedJournal) {
-        setStatusMessage('Processando conteúdo localmente via leitor inteligente...');
-        
-        // If file text can be read or pastedText exists
-        let rawContent = pastedText;
-        if (file && file.type.includes('text')) {
-          rawContent = await file.text();
-        }
+      // FALLBACK: If server was unreachable or returned empty data, use robust client-side text parser!
+      if (!parsedJournal || !parsedJournal.entries || parsedJournal.entries.length === 0) {
+        setStatusMessage('Organizando dias, liturgia e reflexões localmente...');
+
+        const monthName =
+          customMonthName ||
+          file?.name.replace(/\.[^/.]+$/, '') ||
+          'Novo Mês';
 
         parsedJournal = parseJournalTextLocally(
-          rawContent || `Diário Espiritual - ${customMonthName || 'Julho'}`,
-          customMonthName || file?.name.replace(/\.[^/.]+$/, '') || 'Novo Mês'
+          combinedText || `Diário Espiritual - ${monthName}`,
+          monthName
         );
       }
 
