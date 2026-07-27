@@ -56,8 +56,8 @@ async function startServer() {
 
       const parts: any[] = [];
 
-      if (fileBase64) {
-        // Remove data URL prefix if present
+      // If textPrompt contains extracted PDF text, use text-based processing to avoid large base64 payload overhead
+      if (fileBase64 && (!textPrompt || textPrompt.length < 100)) {
         const cleanBase64 = fileBase64.replace(/^data:[^;]+;base64,/, '');
         parts.push({
           inlineData: {
