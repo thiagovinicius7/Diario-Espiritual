@@ -1,0 +1,6 @@
+{
+  "name": "Diário Espiritual",
+  "description": "Aplicativo móvel para acompanhamento e reflexão do Diário Espiritual mensal com liturgia diária, meditações, anotações e exame de consciência.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
